@@ -11,6 +11,7 @@ namespace Ticket.Infrastructure.Persistence
         {
         }
         public DbSet<EventTicket> EventTickets => Set<EventTicket>();
+        public DbSet<User> Users => Set<User>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

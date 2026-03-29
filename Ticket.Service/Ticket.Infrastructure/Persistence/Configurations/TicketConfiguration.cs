@@ -12,6 +12,8 @@ namespace Ticket.Infrastructure.Persistence.Configurations
 
             // Create Index for EventDate because user usually find ticket by event date
             builder.HasIndex(t => t.EventDate).HasDatabaseName("IX_EventTicket_EventDate");
+
+            // Add default value
             builder.Property(t => t.EventName).IsRequired().HasMaxLength(255);
             builder.Property(t => t.Price).HasColumnType("decimal(18,2)");
         }

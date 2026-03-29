@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Ticket.API.Extensions;
 using Ticket.Application.Features.Tickets.Queries;
 using Ticket.Application.Interfaces;
+using Ticket.Domain.Entities;
 using Ticket.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,7 @@ builder.Services.AddDbContext<TicketDbContext>(opt =>
 );
 
 builder.Services.AddScoped<ITicketDbContext>(provider => provider.GetService<TicketDbContext>()!);
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddControllers();
 
 // Register MediatR
