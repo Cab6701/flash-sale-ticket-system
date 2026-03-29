@@ -26,25 +26,25 @@ public class UserRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> LoginAsync(string userName, string password)
+    public async Task<User?> AuthenticateAsync(string userName, string password)
     {
         var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == userName);
-        if (user is null) return false;
+        if (user is null) return null;
 
         var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
         switch (result)
         {
             case PasswordVerificationResult.Success:
-                return true;
+                return user;
 
             case PasswordVerificationResult.SuccessRehashNeeded:
                 user.PasswordHash = _passwordHasher.HashPassword(user, password);
                 await _context.SaveChangesAsync();
-                return true;
+                return user;
 
             case PasswordVerificationResult.Failed:
             default:
-                return false;
+                return null;
         }    
     }
 }
